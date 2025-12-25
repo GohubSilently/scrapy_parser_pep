@@ -93,3 +93,7 @@ FEEDS = {
         'overwrite': True
     }
 }
+
+ITEM_PIPELINES = {
+    'pep_parse.pipelines.PepParsePipeline': 300,
+}
