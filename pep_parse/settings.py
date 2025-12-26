@@ -12,7 +12,7 @@ RESULTS = 'results'
 RESULTS_DIR = BASE_DIR / 'results'
 
 FEEDS = {
-    f'{RESULTS}/pep_%(time)s.csv': {
+    'results/pep_%(time)s.csv': {
         'format': 'csv',
         'fields': ['number', 'name', 'status'],
     }
