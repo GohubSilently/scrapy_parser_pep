@@ -4,21 +4,24 @@ from ..items import PepParseItem
 
 
 class PepSpider(scrapy.Spider):
-    name = "pep"
-    allowed_domains = ["peps.python.org"]
-    start_urls = ["https://peps.python.org"]
+    name = 'pep'
+    allowed_domains = ['peps.python.org']
+    start_urls = ['https://peps.python.org/numerical/']
 
     def parse(self, response):
-        for pep_link in response.css('tbody tr td a::attr(href)'):
-            yield response.follow(pep_link, callback=self.pep_parse)
+        for pep in response.css('tbody tr'):
+            number = pep.css('a::text').get()
+            name = pep.css('td + td + td a::text').get()
+            link = pep.css('a::attr(href)').get()
+            yield response.follow(
+                link,
+                callback=self.parse_pep,
+                meta={'name': name, 'number': number}
+            )
 
-
-    def pep_parse(self, response):
-        number = ''.join(response.css('ul.breadcrumbs li + li + li::text').get().replace('PEP ',''))
-        name = ' '.join(response.css('h1.page-title').xpath('string(.)').get().split()[3:])
-        data = {
-            'number': int(number),
-            'name': name,
-            'status': response.css('dt:contains("Status") + dd abbr::text').get(),
-        }
-        yield PepParseItem(data)
+    def parse_pep(self, response):
+        yield PepParseItem({
+            'number': response.meta['number'],
+            'name': response.meta['name'],
+            'status': response.css('abbr::text').get(),
+        })
