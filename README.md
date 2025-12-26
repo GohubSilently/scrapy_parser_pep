@@ -1,4 +1,4 @@
-# Scrapy PEP - Асинхронный парсер документов PEP на базе фреймфорка Scrapy.
+# Scrapy PEP - Асинхронный парсер документов PEP на базе фреймворка Scrapy.
 
 [![Python](https://img.shields.io/badge/-Python-3771a1?style=flat&logo=Python&logoColor=ffffff)](https://www.python.org/)
 [![Scrapy](https://img.shields.io/badge/-Scrapy-15b8a6?style=flat&logo=Scrapy&logoColor=ffffff)](https://scrapy.org/)
