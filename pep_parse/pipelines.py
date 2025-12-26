@@ -2,7 +2,7 @@ import csv
 from collections import defaultdict
 from datetime import datetime as dt
 
-from .settings import RESULTS_DIR
+from pep_parse.settings import RESULTS_DIR
 
 DATE_FORMAT = '%Y-%m-%d_%H-%M-%S'
 
@@ -19,19 +19,20 @@ class PepParsePipeline:
         return item
 
     def close_spider(self, spider):
-        filename = f'status_summary_{dt.now().strftime(DATE_FORMAT)}.csv'
-
+        filename = 'status_summary_{time}.csv'.format(
+            time=dt.now().strftime(DATE_FORMAT)
+        )
+        status = [[key, value] for key, value in self.status_counter.items()]
+        number_all_statuses = sum(self.status_counter.values())
         with open(
-                RESULTS_DIR / filename, 'w', newline='', encoding='utf-8'
+            RESULTS_DIR / filename, 'w', newline='', encoding='utf-8'
         ) as file:
-            writer = csv.DictWriter(
+            writer = csv.writer(
                 file,
-                fieldnames=['Статус', 'Количество'],
                 dialect=csv.unix_dialect,
             )
-            writer.writeheader()
             writer.writerows([
                 ['Статус', 'Количество'],
-                *self.status_counter.items(),
-                ['Итого', sum(self.status_counter.values())]
+                *status,
+                ['Итого', number_all_statuses],
             ])
