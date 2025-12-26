@@ -27,7 +27,9 @@ class PepParsePipeline:
         timestamp = datetime.now().strftime(DATE_FORMAT)
         filename = f'status_summary_{timestamp}.csv'
 
-        with open(RESULTS_DIR / filename, 'w', newline='', encoding='utf-8') as file:
+        with open(
+                RESULTS_DIR / filename, 'w', newline='', encoding='utf-8'
+        ) as file:
             writer = csv.DictWriter(
                 file,
                 fieldnames=['Статус', 'Количество']
