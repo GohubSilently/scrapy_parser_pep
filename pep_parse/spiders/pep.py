@@ -15,7 +15,7 @@ class PepSpider(scrapy.Spider):
     def parse_pep(self, response):
         number = ''.join(response.css(
             'ul.breadcrumbs li + li + li::text'
-        ).get().replace('PEP ',''))
+        ).get().replace('PEP ', ''))
         name = ' '.join(response.css(
             'h1.page-title'
         ).xpath('string(.)').get().split()[3:])
