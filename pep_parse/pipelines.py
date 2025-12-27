@@ -22,8 +22,6 @@ class PepParsePipeline:
         filename = 'status_summary_{time}.csv'.format(
             time=dt.now().strftime(DATE_FORMAT)
         )
-        status = [[key, value] for key, value in self.status_counter.items()]
-        number_all_statuses = sum(self.status_counter.values())
         with open(
             RESULTS_DIR / filename, 'w', newline='', encoding='utf-8'
         ) as file:
@@ -33,6 +31,6 @@ class PepParsePipeline:
             )
             writer.writerows([
                 ['Статус', 'Количество'],
-                *status,
-                ['Итого', number_all_statuses],
+                *self.status_counter.items(),
+                ['Итого', sum(self.status_counter.values())],
             ])
